@@ -1,6 +1,8 @@
 package com.example.lenovo.selphies;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,8 @@ public class Register extends AppCompatActivity {
     private EditText username, password, confirmPassword, email;
     private Button upload, register, cancel;
     private ImageView profileImage;
+    private static final int PICK_IMAGE = 100;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +28,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validate()){
-
+                    // database
                 }
             }
         });
@@ -39,7 +43,7 @@ public class Register extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openGallery();
             }
         });
     }
@@ -68,7 +72,20 @@ public class Register extends AppCompatActivity {
         }else if(inputPassword != inputConfirmPassword){
             Toast.makeText(this, "Please fill in the correct password confirmation.", Toast.LENGTH_SHORT).show();
         } else result = true;
-
         return result;
+    }
+
+    private void openGallery(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            imageUri = data.getData();
+            profileImage.setImageURI(imageUri);
+        }
     }
 }
