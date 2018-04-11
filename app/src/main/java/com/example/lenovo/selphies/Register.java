@@ -40,7 +40,7 @@ public class Register extends AppCompatActivity {
                     // database
                     String user_email = email.getText().toString().trim();
                     String user_password = password.getText().toString().trim();
-
+                    Toast.makeText(Register.this, "I'm here", Toast.LENGTH_SHORT);
                     firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -92,8 +92,8 @@ public class Register extends AppCompatActivity {
 
         if(inputUsername.isEmpty() || inputPassword.isEmpty() || inputConfirmPassword.isEmpty() || inputEmail.isEmpty()){
             Toast.makeText(this, "Please fill in all the information.", Toast.LENGTH_SHORT).show();
-        }else if(inputPassword != inputConfirmPassword){
-            Toast.makeText(this, "Please fill in the correct password confirmation.", Toast.LENGTH_SHORT).show();
+        }else if(!inputPassword.equals(inputConfirmPassword)){
+            Toast.makeText(this, "The password does not match with the confirmation.", Toast.LENGTH_SHORT).show();
         } else result = true;
         return result;
     }
