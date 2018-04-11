@@ -9,27 +9,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
-    private EditText Username;
-    private EditText Password;
-    private Button Login;
-    private Button Register;
-    private TextView Wrong;
+    private EditText username;
+    private EditText password;
+    private Button login;
+    private Button register;
+    private TextView wrong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Username = (EditText) findViewById(R.id.usernameText);
-        Password = (EditText) findViewById(R.id.passwordText);
-        Login = (Button) findViewById(R.id.loginButton);
-        Register = (Button) findViewById(R.id.registerButton);
-        Wrong = (TextView) findViewById(R.id.wrongText);
+        username = (EditText) findViewById(R.id.usernameText);
+        password = (EditText) findViewById(R.id.passwordText);
+        login = (Button) findViewById(R.id.loginButton);
+        register = (Button) findViewById(R.id.registerButton);
+        wrong = (TextView) findViewById(R.id.wrongText);
 
-        Login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate(Username.getText().toString(), Password.getText().toString());
+                validate(username.getText().toString(), password.getText().toString());
             }
         });
 
@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
             Intent login = new Intent(Login.this, MainActivity.class);
             startActivity(login);
         }else{
-            Wrong.setVisibility(View.VISIBLE);
+            wrong.setVisibility(View.VISIBLE);
         }
     }
 }
