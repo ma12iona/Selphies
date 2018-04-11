@@ -36,7 +36,9 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validate()){
+                //startActivity(new Intent(Register.this, Login.class));
+                Toast.makeText(Register.this, "I'm here1", Toast.LENGTH_SHORT);
+                if(validate() == true){
                     // database
                     String user_email = email.getText().toString().trim();
                     String user_password = password.getText().toString().trim();
@@ -83,7 +85,7 @@ public class Register extends AppCompatActivity {
     }
 
     private Boolean validate(){
-        Boolean result = false;
+        Boolean result = true;
 
         String inputUsername = username.getText().toString();
         String inputPassword = password.getText().toString();
@@ -92,9 +94,11 @@ public class Register extends AppCompatActivity {
 
         if(inputUsername.isEmpty() || inputPassword.isEmpty() || inputConfirmPassword.isEmpty() || inputEmail.isEmpty()){
             Toast.makeText(this, "Please fill in all the information.", Toast.LENGTH_SHORT).show();
-        }else if(!inputPassword.equals(inputConfirmPassword)){
+            result = false;
+        } else if(!inputPassword.equals(inputConfirmPassword)){
             Toast.makeText(this, "The password does not match with the confirmation.", Toast.LENGTH_SHORT).show();
-        } else result = true;
+            result = false;
+        }
         return result;
     }
 
