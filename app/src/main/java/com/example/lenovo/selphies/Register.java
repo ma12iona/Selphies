@@ -3,6 +3,7 @@ package com.example.lenovo.selphies;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +12,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Register extends AppCompatActivity {
     private EditText username, password, confirmPassword, email;
     private Button upload, register, cancel;
     private ImageView profileImage;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +31,27 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         setupUI();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(validate()){
                     // database
+                    String user_email = email.getText().toString().trim();
+                    String user_password = password.getText().toString().trim();
+
+                    firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(Register.this, Login.class));
+                            }else{
+                                Toast.makeText(Register.this, "Registration Failed.", Toast.LENGTH_SHORT);
+                            }
+                        }
+                    });
                 }
             }
         });

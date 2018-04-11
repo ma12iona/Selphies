@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "472773798496",
+    "firebase_url": "https://selphies-79d99.firebaseio.com",
+    "project_id": "selphies-79d99",
+    "storage_bucket": "selphies-79d99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472773798496:android:d92cd93c7cd4821b",
+        "android_client_info": {
+          "package_name": "com.example.lenovo.selphies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472773798496-6l047r0lap7ev23nrs2v17eskhhmhmmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx4FiT748plCrr9T1gddSbiwn_fv0NBl4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
