@@ -1,5 +1,6 @@
 package com.example.lenovo.selphies;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,23 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate();
+                if(validate()){
+
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Register.this, Login.class));
+            }
+        });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -48,7 +65,9 @@ public class Register extends AppCompatActivity {
 
         if(inputUsername.isEmpty() || inputPassword.isEmpty() || inputConfirmPassword.isEmpty() || inputEmail.isEmpty()){
             Toast.makeText(this, "Please fill in all the information.", Toast.LENGTH_SHORT).show();
-        }else result = true;
+        }else if(inputPassword != inputConfirmPassword){
+            Toast.makeText(this, "Please fill in the correct password confirmation.", Toast.LENGTH_SHORT).show();
+        } else result = true;
 
         return result;
     }
