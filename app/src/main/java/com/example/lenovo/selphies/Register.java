@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
     private EditText username, password, confirmPassword, email;
@@ -25,6 +27,9 @@ public class Register extends AppCompatActivity {
     Uri imageUri;
     private FirebaseAuth firebaseAuth;
 
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,17 +37,27 @@ public class Register extends AppCompatActivity {
         setupUI();
 
         firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(Register.this, Login.class));
-                Toast.makeText(Register.this, "I'm here1", Toast.LENGTH_SHORT);
-                if(validate() == true){
+                if(validate()){
                     // database
-                    String user_email = email.getText().toString().trim();
+                    String user_username = username.getText().toString().trim();
                     String user_password = password.getText().toString().trim();
-                    Toast.makeText(Register.this, "I'm here", Toast.LENGTH_SHORT);
+                    String user_email = email.getText().toString().trim();
+
+                    ref = database.getReference("users").child(user_username);
+                    ref.child("username").setValue(user_username);
+                    ref.child("password").setValue(user_password);
+                    ref.child("email").setValue(user_email);
+
+                    Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(Register.this, Login.class));
+
+
+                    /*
                     firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -50,10 +65,11 @@ public class Register extends AppCompatActivity {
                                 Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));
                             }else{
-                                Toast.makeText(Register.this, "Registration Failed.", Toast.LENGTH_SHORT);
+                                Toast.makeText(Register.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+                    */
                 }
             }
         });
@@ -94,6 +110,9 @@ public class Register extends AppCompatActivity {
 
         if(inputUsername.isEmpty() || inputPassword.isEmpty() || inputConfirmPassword.isEmpty() || inputEmail.isEmpty()){
             Toast.makeText(this, "Please fill in all the information.", Toast.LENGTH_SHORT).show();
+            result = false;
+        } else if(inputPassword.length() < 6){
+            Toast.makeText(this, "The password must be at least 6 characters.", Toast.LENGTH_SHORT).show();
             result = false;
         } else if(!inputPassword.equals(inputConfirmPassword)){
             Toast.makeText(this, "The password does not match with the confirmation.", Toast.LENGTH_SHORT).show();
