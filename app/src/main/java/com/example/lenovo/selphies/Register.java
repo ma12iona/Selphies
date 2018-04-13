@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,7 +27,7 @@ public class Register extends AppCompatActivity {
     private ImageView profileImage;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
 
     private FirebaseDatabase database;
     private DatabaseReference ref;
@@ -36,7 +38,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         setupUI();
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +47,8 @@ public class Register extends AppCompatActivity {
                 if(validate()){
                     // database
                     String user_username = username.getText().toString().trim();
-                    String user_password = password.getText().toString().trim();
-                    String user_email = email.getText().toString().trim();
+                    final String user_password = password.getText().toString().trim();
+                    final String user_email = email.getText().toString().trim();
 
                     ref = database.getReference("users").child(user_username);
                     ref.child("username").setValue(user_username);
@@ -55,10 +57,11 @@ public class Register extends AppCompatActivity {
 
                     //Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
 
-                    firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                userProfile(user_email, user_password);
                                 Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));
                             }else{
@@ -66,8 +69,6 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
-
-                    startActivity(new Intent(Register.this, Login.class));
 
                 }
             }
@@ -132,5 +133,32 @@ public class Register extends AppCompatActivity {
             imageUri = data.getData();
             profileImage.setImageURI(imageUri);
         }
+    }
+
+    private void userProfile(String user_email, String user_password){
+        mAuth.signInWithEmailAndPassword(user_email,user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(Register.this, "Incorrect email or password.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString().trim()).build();
+
+            user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+
+                    }
+                }
+            });
+        }
+
+
+
     }
 }
