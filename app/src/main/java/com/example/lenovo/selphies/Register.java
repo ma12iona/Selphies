@@ -53,11 +53,8 @@ public class Register extends AppCompatActivity {
                     ref.child("password").setValue(user_password);
                     ref.child("email").setValue(user_email);
 
-                    Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Register.this, Login.class));
+                    //Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
 
-
-                    /*
                     firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -69,7 +66,9 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
-                    */
+
+                    startActivity(new Intent(Register.this, Login.class));
+
                 }
             }
         });

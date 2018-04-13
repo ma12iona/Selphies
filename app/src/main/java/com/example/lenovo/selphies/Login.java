@@ -56,18 +56,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void validate(String username, String password){
-        user_ref = ref.child(username);
-        user_ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        })
         if((username.equals("Admin")) && (password.equals("1234"))){
             Intent login = new Intent(Login.this, MainActivity.class);
             startActivity(login);
