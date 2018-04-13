@@ -47,21 +47,19 @@ public class Register extends AppCompatActivity {
                 if(validate()){
                     // database
                     String user_username = username.getText().toString().trim();
-                    final String user_password = password.getText().toString().trim();
-                    final String user_email = email.getText().toString().trim();
+                    String user_password = password.getText().toString().trim();
+                    String user_email = email.getText().toString().trim();
 
                     ref = database.getReference("users").child(user_username);
                     ref.child("username").setValue(user_username);
                     ref.child("password").setValue(user_password);
                     ref.child("email").setValue(user_email);
 
-                    //Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
-
                     mAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                userProfile(user_email, user_password);
+                                userProfile();
                                 Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));
                             }else{
@@ -135,15 +133,7 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    private void userProfile(String user_email, String user_password){
-        mAuth.signInWithEmailAndPassword(user_email,user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    Toast.makeText(Register.this, "Incorrect email or password.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    private void userProfile(){
         FirebaseUser user = mAuth.getCurrentUser();
         if(user != null){
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString().trim()).build();

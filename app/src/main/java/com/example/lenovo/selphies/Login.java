@@ -34,6 +34,10 @@ public class Login extends AppCompatActivity {
         setupUI();
 
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null){
+            mAuth.signOut();
+        }
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -58,11 +62,11 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    /*@Override
+    @Override
     protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(authStateListener);
-    }*/
+    }
 
     private void setupUI(){
         email = (EditText) findViewById(R.id.emailText);
@@ -75,8 +79,6 @@ public class Login extends AppCompatActivity {
 
         String user_email = email.getText().toString();
         String user_password = password.getText().toString();
-
-
 
         if(TextUtils.isEmpty(user_email) || TextUtils.isEmpty(user_password)){
             Toast.makeText(Login.this, "Please fill in the email and password.", Toast.LENGTH_SHORT).show();
