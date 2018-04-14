@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,16 +23,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class Register extends AppCompatActivity {
     private EditText username, password, confirmPassword, email;
     private Button upload, register, cancel;
     private ImageView profileImage;
-    private static final int PICK_IMAGE = 100;
     private static final int GALLERY_INTENT = 1;
-    Uri imageUri;
     private FirebaseAuth mAuth;
-
+    private Uri imageUri;
     private FirebaseDatabase database;
     private DatabaseReference ref;
     private StorageReference storageReference;
@@ -60,6 +60,16 @@ public class Register extends AppCompatActivity {
                     ref.child("password").setValue(user_password);
                     ref.child("email").setValue(user_email);
 
+                    if(imageUri != null){
+                        StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child(imageUri.getLastPathSegment());
+                        filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            }
+                        });
+                    }
+
                     mAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -87,7 +97,9 @@ public class Register extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                Intent gallery = new Intent(Intent.ACTION_PICK);
+                gallery.setType("image/*");
+                startActivityForResult(gallery, GALLERY_INTENT);
             }
         });
     }
@@ -124,15 +136,10 @@ public class Register extends AppCompatActivity {
         return result;
     }
 
-    private void openGallery(){
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+        if(resultCode == RESULT_OK && requestCode == GALLERY_INTENT){
             imageUri = data.getData();
             profileImage.setImageURI(imageUri);
         }
