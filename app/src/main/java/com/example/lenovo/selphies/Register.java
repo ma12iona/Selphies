@@ -20,17 +20,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class Register extends AppCompatActivity {
     private EditText username, password, confirmPassword, email;
     private Button upload, register, cancel;
     private ImageView profileImage;
     private static final int PICK_IMAGE = 100;
+    private static final int GALLERY_INTENT = 1;
     Uri imageUri;
     private FirebaseAuth mAuth;
 
     private FirebaseDatabase database;
     private DatabaseReference ref;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class Register extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
