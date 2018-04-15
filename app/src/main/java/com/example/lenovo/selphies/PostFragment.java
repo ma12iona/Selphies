@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import static android.app.Activity.RESULT_OK;
@@ -39,20 +38,18 @@ public class PostFragment extends Fragment {
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK);
                 galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, GALLERY_INTENT);
-
+                getActivity().startActivityForResult(galleryIntent, GALLERY_INTENT);
             }
         });
 
-        return inflater.inflate(R.layout.fragment_post, null);
+        return view;
     }
 
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode == RESULT_OK && requestCode == GALLERY_INTENT){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode,resultCode,data);
+        if (resultCode == RESULT_OK && requestCode == GALLERY_INTENT) {
             imageUri = data.getData();
             image.setImageURI(imageUri);
         }
