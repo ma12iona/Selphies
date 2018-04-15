@@ -1,5 +1,6 @@
 package com.example.lenovo.selphies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -71,5 +72,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         return loadFragment(fragment);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
