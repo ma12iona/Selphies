@@ -32,13 +32,14 @@ public class PostFragment extends Fragment {
         post = (Button) view.findViewById(R.id.postButton);
         gallery = (Button) view.findViewById(R.id.galleryButton);
         camera = (Button) view.findViewById(R.id.cameraButton);
+        image =(ImageView) view.findViewById(R.id.imageView);
 
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK);
                 galleryIntent.setType("image/*");
-                getActivity().startActivityForResult(galleryIntent, GALLERY_INTENT);
+                startActivityForResult(galleryIntent, GALLERY_INTENT);
             }
         });
 
