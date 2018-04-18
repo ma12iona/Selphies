@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@mipmap/selphies_pic" />
+        app:srcCompat="@mipmap/selphies_app" />
 
     <Button
         android:id="@+id/uploadButton"
