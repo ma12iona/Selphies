@@ -22,6 +22,7 @@ public class Login extends AppCompatActivity {
     private EditText password;
     private Button login;
     private Button register;
+    private Button bypass;
     private FirebaseDatabase database;
 
     private FirebaseAuth mAuth;
@@ -61,6 +62,13 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this, Register.class));
             }
         });
+
+        bypass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, MainActivity.class));
+            }
+        });
     }
 
     @Override
@@ -74,6 +82,7 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordText);
         login = (Button) findViewById(R.id.loginButton);
         register = (Button) findViewById(R.id.registerButton);
+        bypass = (Button) findViewById(R.id.bypass);
     }
 
     private void validate(){
