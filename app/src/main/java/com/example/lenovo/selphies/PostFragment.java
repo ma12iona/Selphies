@@ -25,6 +25,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,6 +48,12 @@ public class PostFragment extends Fragment {
     private Uri imageUri;
     private File file;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
+    private StorageReference storageReference;
+
     private static final int GALLERY_INTENT = 1;
     private static final int CAMERA_INTENT = 2;
     private static final int WRITE_EXTERNAL_REQUEST_CODE = 3;
@@ -57,6 +69,10 @@ public class PostFragment extends Fragment {
         gallery = (Button) view.findViewById(R.id.galleryButton);
         camera = (Button) view.findViewById(R.id.cameraButton);
         image = (ImageView) view.findViewById(R.id.imageView);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,14 +94,24 @@ public class PostFragment extends Fragment {
             }
         });
 
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = mAuth.getCurrentUser().getDisplayName();
+
+                //StorageReference =
+
+                ref = database.getReference("users").child(username).child("post");
+
+
+            }
+        });
+
         return view;
     }
 
     public void takePhoto() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        //imageUri = cameraIntent.getData();
-        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         File cameraFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
         try {
             file = File.createTempFile(String.valueOf(System.currentTimeMillis()), ".jpg", cameraFolder);
@@ -98,8 +124,6 @@ public class PostFragment extends Fragment {
 
         cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
         cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        //imageUri = Uri.fromFile(file);
-
         startActivityForResult(cameraIntent, CAMERA_INTENT);
     }
 
@@ -110,6 +134,7 @@ public class PostFragment extends Fragment {
             takePhoto();
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,7 +160,7 @@ public class PostFragment extends Fragment {
                         public void onScanCompleted(String path, Uri uri) {
                         }
                     });
-
+            //Reference: https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
         }
     }
 
