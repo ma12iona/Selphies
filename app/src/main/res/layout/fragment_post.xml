@@ -5,11 +5,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="351dp"
-        android:layout_height="344dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
+        android:layout_marginTop="22dp"
         app:srcCompat="?attr/colorButtonNormal" />
 
     <Button
@@ -36,4 +36,17 @@
         android:layout_alignStart="@+id/imageView"
         android:layout_alignTop="@+id/postButton"
         android:text="Camera" />
+
+    <EditText
+        android:id="@+id/descriptionText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="117dp"
+        android:ems="10"
+        android:hint="Enter description"
+        android:inputType="textPersonName"
+        android:background="@drawable/edit_shape"
+        android:padding="10dp" />
 </RelativeLayout>
