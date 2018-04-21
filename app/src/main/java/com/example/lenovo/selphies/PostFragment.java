@@ -18,18 +18,24 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,6 +53,7 @@ public class PostFragment extends Fragment {
     private ImageView image;
     private Uri imageUri;
     private File file;
+    private EditText description;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -69,6 +76,7 @@ public class PostFragment extends Fragment {
         gallery = (Button) view.findViewById(R.id.galleryButton);
         camera = (Button) view.findViewById(R.id.cameraButton);
         image = (ImageView) view.findViewById(R.id.imageView);
+        description = (EditText) view.findViewById(R.id.descriptionText);
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -98,6 +106,19 @@ public class PostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String username = mAuth.getCurrentUser().getDisplayName();
+                String desc = description.getText().toString().trim();
+                Log.v("username", username);
+
+                if(!TextUtils.isEmpty(desc)){
+                    StorageReference filePath = storageReference.child("users").child(username).child("post").child(imageUri.getLastPathSegment());
+                    filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        }
+                    });
+                }
+
+
 
                 //StorageReference =
 
