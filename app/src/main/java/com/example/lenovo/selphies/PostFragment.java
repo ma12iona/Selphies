@@ -80,6 +80,7 @@ public class PostFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        ref = database.getReference("users").child(mAuth.getCurrentUser().getDisplayName()).child("post");
         storageReference = FirebaseStorage.getInstance().getReference();
 
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +107,7 @@ public class PostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String username = mAuth.getCurrentUser().getDisplayName();
-                String desc = description.getText().toString().trim();
+                final String desc = description.getText().toString().trim();
                 Log.v("username", username);
 
                 if(!TextUtils.isEmpty(desc)){
@@ -114,6 +115,11 @@ public class PostFragment extends Fragment {
                     filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            DatabaseReference newPost = ref.push();
+                            newPost.child("desc").setValue(desc);
+                            newPost.child("image").setValue(downloadUrl.toString());
+                            newPost.child("view").setValue(0);
                         }
                     });
                 }
@@ -122,7 +128,7 @@ public class PostFragment extends Fragment {
 
                 //StorageReference =
 
-                ref = database.getReference("users").child(username).child("post");
+
 
 
             }
