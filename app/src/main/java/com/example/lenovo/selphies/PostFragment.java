@@ -80,7 +80,9 @@ public class PostFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("users").child(mAuth.getCurrentUser().getDisplayName()).child("post");
+        //ref = database.getReference("users").child(mAuth.getCurrentUser().getDisplayName()).child("post");
+        ref = database.getReference("posts");
+
         storageReference = FirebaseStorage.getInstance().getReference();
 
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -106,12 +108,13 @@ public class PostFragment extends Fragment {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = mAuth.getCurrentUser().getDisplayName();
+                final String username = mAuth.getCurrentUser().getDisplayName();
                 final String desc = description.getText().toString().trim();
                 Log.v("username", username);
 
                 if(!TextUtils.isEmpty(desc)){
-                    StorageReference filePath = storageReference.child("users").child(username).child("post").child(imageUri.getLastPathSegment());
+                    //StorageReference filePath = storageReference.child("users").child(username).child("post").child(imageUri.getLastPathSegment());
+                    StorageReference filePath = storageReference.child("posts").child(imageUri.getLastPathSegment());
                     filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -120,6 +123,7 @@ public class PostFragment extends Fragment {
                             newPost.child("desc").setValue(desc);
                             newPost.child("image").setValue(downloadUrl.toString());
                             newPost.child("view").setValue(0);
+                            newPost.child("username").setValue(username);
                         }
                     });
                 }

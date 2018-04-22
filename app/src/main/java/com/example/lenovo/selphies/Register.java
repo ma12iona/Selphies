@@ -61,11 +61,13 @@ public class Register extends AppCompatActivity {
                     ref.child("email").setValue(user_email);
 
                     if(imageUri != null){
-                        StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
+                        //StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
+                        StorageReference filepath = storageReference.child("profile").child(imageUri.getLastPathSegment());
                         filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                ref.child("profile").setValue(downloadUrl.toString());
                             }
                         });
                     }
