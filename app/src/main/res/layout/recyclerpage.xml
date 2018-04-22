@@ -18,12 +18,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Username"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="seeUserProfile"/>
 
         <ImageView
             android:id="@+id/postImage"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="250dp" />
+
+
 
         <TextView
             android:id="@+id/descText"

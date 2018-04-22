@@ -44,6 +44,13 @@ public class HomeFragment extends Fragment {
         //databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
+        recycler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return view;
     }
 
@@ -89,4 +96,6 @@ public class HomeFragment extends Fragment {
         };
         recycler.setAdapter(FBRA);
     }
+
+
 }
