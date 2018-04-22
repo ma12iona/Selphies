@@ -36,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -174,6 +176,7 @@ public class PostFragment extends Fragment {
             imageUri = data.getData();
             image.setImageURI(imageUri);
         }
+
         if (resultCode == RESULT_OK && requestCode == CAMERA_INTENT) {
 
             File file = new File(imageUri.getPath());
@@ -193,6 +196,7 @@ public class PostFragment extends Fragment {
                     });
             //Reference: https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
         }
+
     }
 
 }

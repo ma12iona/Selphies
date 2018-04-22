@@ -32,9 +32,15 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         final Activity activity = getActivity();
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        //https://freakycoder.com/android-notes-46-how-to-reverse-recyclerview-by-adding-items-f32db1e36c51
+
         recycler = (RecyclerView) view.findViewById(R.id.recycler);
         recycler.setHasFixedSize(true);
-        recycler.setLayoutManager(new LinearLayoutManager(activity));
+        //recycler.setLayoutManager(new LinearLayoutManager(activity));
+        recycler.setLayoutManager(mLayoutManager);
         //databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
