@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        app:srcCompat="?attr/colorButtonNormal" />
+        app:srcCompat="@mipmap/selphies_app" />
 
     <Button
         android:id="@+id/postButton"
