@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,24 @@ public class Register extends AppCompatActivity {
                     String user_password = password.getText().toString().trim();
                     String user_email = email.getText().toString().trim();
 
+
+                    mAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                String user_id = mAuth.getCurrentUser().getUid();
+                                Log.v("xyz", user_id);
+                                //ref = database.getReference("users").child(user_id);
+
+                                //userProfile();
+                                Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
+
+                            }else{
+                                Toast.makeText(Register.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
                     ref = database.getReference("users").child(user_username);
                     ref.child("username").setValue(user_username);
                     ref.child("password").setValue(user_password);
@@ -74,21 +93,10 @@ public class Register extends AppCompatActivity {
                         });
                     }
 
-                    mAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                userProfile();
-                                Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Register.this, Login.class));
-                            }else{
-                                Toast.makeText(Register.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
 
 
 
+                    startActivity(new Intent(Register.this, Login.class));
                 }
             }
         });

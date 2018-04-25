@@ -206,7 +206,7 @@ public class PostFragment extends Fragment {
 
 
     }
-    
+
     public void getImage(int requestCode, int resultCode, Intent data){
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
