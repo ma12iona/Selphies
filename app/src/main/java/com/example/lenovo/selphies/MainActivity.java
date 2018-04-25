@@ -1,6 +1,7 @@
 package com.example.lenovo.selphies;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,7 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    Fragment fragment = null;
 
 
 
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment fragment = null;
+
 
         switch (item.getItemId()){
 
@@ -77,5 +81,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+        if(fragment.getClass().equals(PostFragment.class)){
+            ((PostFragment) fragment).getImage(requestCode, resultCode, data);
+        }
     }
+
+
 }

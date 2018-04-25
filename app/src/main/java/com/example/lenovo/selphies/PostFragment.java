@@ -60,12 +60,27 @@ public class PostFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseDatabase database;
-    private DatabaseReference ref;
+    private DatabaseReference postref, userref;
     private StorageReference storageReference;
 
     private static final int GALLERY_INTENT = 1;
     private static final int CAMERA_INTENT = 2;
     private static final int WRITE_EXTERNAL_REQUEST_CODE = 3;
+
+
+    public void getImage(int requestCode, int resultCode, Intent data){
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if(resultCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+                image.setImageURI(resultUri);
+                imageUri = resultUri;
+            }else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception error = result.getError();
+            }
+        }
+
+    }
 
     @Nullable
     @Override
@@ -83,7 +98,8 @@ public class PostFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         //ref = database.getReference("users").child(mAuth.getCurrentUser().getDisplayName()).child("post");
-        ref = database.getReference("posts");
+        postref = database.getReference("posts");
+        userref = database.getReference("users");
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -121,21 +137,20 @@ public class PostFragment extends Fragment {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            DatabaseReference newPost = ref.push();
+                            DatabaseReference newPost = postref.push();
                             newPost.child("desc").setValue(desc);
                             newPost.child("image").setValue(downloadUrl.toString());
                             newPost.child("view").setValue(0);
                             newPost.child("username").setValue(username);
+
+                            DatabaseReference userPost = userref.child(username).child("posts").child(newPost.getKey());
+                            userPost.setValue(newPost.getKey());
+
                         }
                     });
                 }
-
-
-
-                //StorageReference =
-
-
-
+                Toast.makeText(getContext(), "Post Completed.", Toast.LENGTH_SHORT).show();
+                getActivity().startActivity(new Intent(getContext(), MainActivity.class));
 
             }
         });
@@ -174,7 +189,11 @@ public class PostFragment extends Fragment {
         //super.onActivityResult(requestCode,resultCode,data);
         if (resultCode == RESULT_OK && requestCode == GALLERY_INTENT) {
             imageUri = data.getData();
-            image.setImageURI(imageUri);
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(getActivity());
+            //image.setImageURI(imageUri);
         }
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_INTENT) {
@@ -196,6 +215,7 @@ public class PostFragment extends Fragment {
                     });
             //Reference: https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
         }
+
 
     }
 
