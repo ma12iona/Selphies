@@ -35,9 +35,9 @@ public class Login extends AppCompatActivity {
         setupUI();
 
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
+        /*if(mAuth.getCurrentUser() != null){
             mAuth.signOut();
-        }
+        }*/
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
