@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileFragment extends Fragment {
@@ -24,6 +26,7 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     @Nullable
     @Override
@@ -39,7 +42,12 @@ public class ProfileFragment extends Fragment {
         logout = (Button) view.findViewById(R.id.logoutButton);
 
         mAuth = FirebaseAuth.getInstance();
-        //username.setText();
+        FirebaseUser user = mAuth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
+
+        String currentUsername = databaseReference.child("username").toString();
+
+        username.setText(currentUsername);
 
 
         return view;

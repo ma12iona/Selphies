@@ -69,6 +69,7 @@ public class Register extends AppCompatActivity {
                                 ref.child("username").setValue(user_username);
                                 ref.child("password").setValue(user_password);
                                 ref.child("email").setValue(user_email);
+                                ref.child("description").setValue("");
 
                                 if(imageUri != null){
                                     //StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
