@@ -54,9 +54,9 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 if(validate()){
                     // database
-                    String user_username = username.getText().toString().trim();
-                    String user_password = password.getText().toString().trim();
-                    String user_email = email.getText().toString().trim();
+                    final String user_username = username.getText().toString().trim();
+                    final String user_password = password.getText().toString().trim();
+                    final String user_email = email.getText().toString().trim();
 
 
                     mAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -65,22 +65,38 @@ public class Register extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 String user_id = mAuth.getCurrentUser().getUid();
                                 Log.v("xyz", user_id);
-                                //ref = database.getReference("users").child(user_id);
+                                ref = database.getReference("users").child(user_id);
+                                ref.child("username").setValue(user_username);
+                                ref.child("password").setValue(user_password);
+                                ref.child("email").setValue(user_email);
+
+                                if(imageUri != null){
+                                    //StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
+                                    StorageReference filepath = storageReference.child("profile").child(imageUri.getLastPathSegment());
+                                    filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                            ref.child("profile").setValue(downloadUrl.toString());
+                                        }
+                                    });
+                                }
 
                                 //userProfile();
                                 Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
-
+                                startActivity(new Intent(Register.this, Login.class));
                             }else{
                                 Toast.makeText(Register.this, "Registration Failed.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
-                    ref = database.getReference("users").child(user_username);
-                    ref.child("username").setValue(user_username);
-                    ref.child("password").setValue(user_password);
-                    ref.child("email").setValue(user_email);
+                    //ref = database.getReference("users").child(user_username);
+                    //ref.child("username").setValue(user_username);
+                    //ref.child("password").setValue(user_password);
+                    //ref.child("email").setValue(user_email);
 
+                    /*
                     if(imageUri != null){
                         //StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
                         StorageReference filepath = storageReference.child("profile").child(imageUri.getLastPathSegment());
@@ -91,12 +107,12 @@ public class Register extends AppCompatActivity {
                                 ref.child("profile").setValue(downloadUrl.toString());
                             }
                         });
-                    }
+                    }*/
 
 
 
 
-                    startActivity(new Intent(Register.this, Login.class));
+                    //startActivity(new Intent(Register.this, Login.class));
                 }
             }
         });

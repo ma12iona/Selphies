@@ -39,7 +39,7 @@ public class DummySignIn extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         success.setText(mAuth.getCurrentUser().getEmail().toString());
-        logged.setText("Logged in as " + mAuth.getCurrentUser().getDisplayName());
+        //logged.setText("Logged in as " + mAuth.getCurrentUser().getDisplayName());
     }
 
     private  void signout(){
