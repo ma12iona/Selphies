@@ -8,14 +8,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,21 +43,24 @@ public class ProfileFragment extends Fragment {
     private ImageView profileImage;
     private Button upload, update, logout;
 
-    private String currentUsername, currentDescription, currentProfilePicture;
+    private String currentUsername, currentDescription, currentProfilePicture, userId;
 
     private static final int GALLERY_INTENT = 1;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, postReference;
     private StorageReference storageReference;
     private Uri imageUri;
+
+    private RecyclerView recycler;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         final Activity activity = getActivity();
+
 
         username = (EditText) view.findViewById(R.id.usernameText);
         description = (EditText) view.findViewById(R.id.descriptionText);
@@ -64,9 +71,19 @@ public class ProfileFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
+        userId = user.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler.setHasFixedSize(true);
+        //recycler.setLayoutManager(new LinearLayoutManager(activity));
+        recycler.setLayoutManager(mLayoutManager);
+        postReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("posts");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -162,6 +179,36 @@ public class ProfileFragment extends Fragment {
                 Exception error = result.getError();
             }
         }
+    }
 
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
+        public  RecyclerViewHolder(View itemView){
+            super(itemView);
+            View mView = itemView;
+        }
+
+        public void setImage(String image){
+            ImageView post_image = (ImageView) itemView.findViewById(R.id.postImage);
+            Picasso.get().load(image).into(post_image);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseRecyclerAdapter<ProfileFiller, ProfileFragment.RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<ProfileFiller, ProfileFragment.RecyclerViewHolder>(
+
+                ProfileFiller.class,
+                R.layout.profilerecycler,
+                ProfileFragment.RecyclerViewHolder.class,
+                postReference
+
+        ) {
+            @Override
+            protected void populateViewHolder(ProfileFragment.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
+                viewHolder.setImage(model.getImage());
+            }
+        };
+        recycler.setAdapter(FBRA);
     }
 }
