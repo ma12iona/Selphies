@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -33,6 +37,8 @@ public class ProfileFragment extends Fragment {
     private EditText username, description;
     private ImageView profileImage;
     private Button upload, update, logout;
+
+    private String currentUsername, currentDescription, currentProfilePicture;
 
     private static final int GALLERY_INTENT = 1;
 
@@ -58,14 +64,15 @@ public class ProfileFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
+        storageReference = FirebaseStorage.getInstance().getReference();
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String currentUsername = dataSnapshot.child("username").getValue().toString().trim();
-                String currentDescription = dataSnapshot.child("description").getValue().toString().trim();
-                String currentProfilePicture = dataSnapshot.child("profile").getValue().toString();
+                currentUsername = dataSnapshot.child("username").getValue().toString().trim();
+                currentDescription = dataSnapshot.child("description").getValue().toString().trim();
+                currentProfilePicture = dataSnapshot.child("profile").getValue().toString();
                 username.setText(currentUsername);
                 description.setText(currentDescription);
             }
@@ -81,11 +88,31 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 String newUsername = username.getText().toString().trim();
                 String newDescription = description.getText().toString().trim();
+
+                databaseReference.child("username").setValue(newUsername);
+                databaseReference.child("description").setValue(newDescription);
+
                 if(imageUri!=null){
+                    if(currentProfilePicture != ""){
+                        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(currentProfilePicture);
+                        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
 
+                            }
+                        });
+
+                        StorageReference filepath = storageReference.child("profile").child(imageUri.getLastPathSegment());
+                        filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                                databaseReference.child("profile").setValue(downloadUrl.toString());
+                            }
+                        });
+                    }
                 }
-
-
+                Toast.makeText(getContext(), "Update Completed.", Toast.LENGTH_SHORT).show();
             }
         });
 

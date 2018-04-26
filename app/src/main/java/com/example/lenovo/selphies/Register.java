@@ -81,6 +81,8 @@ public class Register extends AppCompatActivity {
                                             ref.child("profile").setValue(downloadUrl.toString());
                                         }
                                     });
+                                }else{
+                                    ref.child("profile").setValue("");
                                 }
 
                                 //userProfile();
