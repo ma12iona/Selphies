@@ -39,9 +39,8 @@ public class HomeFragment extends Fragment {
 
         recycler = (RecyclerView) view.findViewById(R.id.recycler);
         recycler.setHasFixedSize(true);
-        //recycler.setLayoutManager(new LinearLayoutManager(activity));
+
         recycler.setLayoutManager(mLayoutManager);
-        //databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
         recycler.setOnClickListener(new View.OnClickListener() {

@@ -191,6 +191,11 @@ public class ProfileFragment extends Fragment {
             ImageView post_image = (ImageView) itemView.findViewById(R.id.postImage);
             Picasso.get().load(image).into(post_image);
         }
+
+        public void setDescription(String description){
+            EditText description_text = (EditText) itemView.findViewById(R.id.descriptionText);
+            description_text.setText(description);
+        }
     }
 
     @Override
@@ -207,6 +212,8 @@ public class ProfileFragment extends Fragment {
             @Override
             protected void populateViewHolder(ProfileFragment.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
                 viewHolder.setImage(model.getImage());
+                viewHolder.setDescription(model.getDescription());
+
             }
         };
         recycler.setAdapter(FBRA);

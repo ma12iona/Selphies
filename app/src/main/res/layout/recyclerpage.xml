@@ -17,23 +17,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:onClick="seeUserProfile"
             android:text="Username"
-            android:textStyle="bold"
-            android:onClick="seeUserProfile"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/postImage"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="250dp"
+            android:layout_marginBottom="10dp"/>
 
-
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="Description"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/descText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Description" />
+            android:text="Description"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/endorseButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Endorse" />
 
 
     </LinearLayout>
