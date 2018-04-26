@@ -92,28 +92,6 @@ public class Register extends AppCompatActivity {
                         }
                     });
 
-                    //ref = database.getReference("users").child(user_username);
-                    //ref.child("username").setValue(user_username);
-                    //ref.child("password").setValue(user_password);
-                    //ref.child("email").setValue(user_email);
-
-                    /*
-                    if(imageUri != null){
-                        //StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
-                        StorageReference filepath = storageReference.child("profile").child(imageUri.getLastPathSegment());
-                        filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                ref.child("profile").setValue(downloadUrl.toString());
-                            }
-                        });
-                    }*/
-
-
-
-
-                    //startActivity(new Intent(Register.this, Login.class));
                 }
             }
         });
@@ -191,22 +169,4 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    private void userProfile(){
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null){
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username.getText().toString().trim()).build();
-
-            user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-
-                    }
-                }
-            });
-        }
-
-
-
-    }
 }

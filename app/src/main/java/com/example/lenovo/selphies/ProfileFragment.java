@@ -3,6 +3,7 @@ package com.example.lenovo.selphies;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
@@ -29,10 +34,13 @@ public class ProfileFragment extends Fragment {
     private ImageView profileImage;
     private Button upload, update, logout;
 
+    private static final int GALLERY_INTENT = 1;
+
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
+    private Uri imageUri;
 
     @Nullable
     @Override
@@ -86,9 +94,40 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent(Intent.ACTION_PICK);
+                gallery.setType("image/*");
+                startActivityForResult(gallery, GALLERY_INTENT);
+            }
+        });
 
         return view;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == RESULT_OK && requestCode == GALLERY_INTENT) {
+            imageUri = data.getData();
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(getActivity());
+            //image.setImageURI(imageUri);
+        }
+    }
+
+    public void getImage(int requestCode, int resultCode, Intent data){
+        if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if(resultCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+                profileImage.setImageURI(resultUri);
+                imageUri = resultUri;
+            }else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception error = result.getError();
+            }
+        }
+
     }
 }

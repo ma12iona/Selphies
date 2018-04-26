@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(fragment.getClass().equals(PostFragment.class)){
             ((PostFragment) fragment).getImage(requestCode, resultCode, data);
         }
+        if(fragment.getClass().equals(ProfileFragment.class)){
+            ((ProfileFragment) fragment).getImage(requestCode, resultCode, data);
+        }
     }
 
 
