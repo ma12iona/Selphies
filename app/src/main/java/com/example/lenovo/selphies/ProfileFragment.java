@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -75,6 +76,9 @@ public class ProfileFragment extends Fragment {
                 currentProfilePicture = dataSnapshot.child("profile").getValue().toString();
                 username.setText(currentUsername);
                 description.setText(currentDescription);
+                if(currentProfilePicture != ""){
+                    Picasso.get().load(currentProfilePicture).into(profileImage);
+                }
             }
 
             @Override
