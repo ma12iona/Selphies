@@ -81,6 +81,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 String newUsername = username.getText().toString().trim();
                 String newDescription = description.getText().toString().trim();
+                if(imageUri!=null){
+
+                }
 
 
             }

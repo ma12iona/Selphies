@@ -31,8 +31,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -56,6 +59,9 @@ public class PostFragment extends Fragment {
     private Uri imageUri;
     private File file;
     private EditText description;
+    private String userId;
+    private FirebaseUser user;
+    private String username;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -85,6 +91,8 @@ public class PostFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        user = mAuth.getCurrentUser();
+        userId = user.getUid();
         //ref = database.getReference("users").child(mAuth.getCurrentUser().getDisplayName()).child("post");
         postref = database.getReference("posts");
         userref = database.getReference("users");
@@ -114,9 +122,24 @@ public class PostFragment extends Fragment {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = mAuth.getCurrentUser().getDisplayName();
+                //final String username = mAuth.getCurrentUser().getDisplayName();//////////////////////////////
+
+                userref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.v("xyz", userId);
+                        username = dataSnapshot.child(userId).child("username").getValue().toString();
+                        Log.v("xyz", username);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                //final String username = userref.child(userId).child("username").getKey();
                 final String desc = description.getText().toString().trim();
-                Log.v("username", username);
+
 
                 if(!TextUtils.isEmpty(desc)){
                     //StorageReference filePath = storageReference.child("users").child(username).child("post").child(imageUri.getLastPathSegment());
