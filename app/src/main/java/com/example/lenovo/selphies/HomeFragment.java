@@ -78,6 +78,11 @@ public class HomeFragment extends Fragment {
             Picasso.get().load(image).into(post_image);
         }
 
+        public void setEndorse(Long endorse){
+            TextView post_endorse = (TextView) itemView.findViewById(R.id.endorseText);
+            post_endorse.setText(endorse.toString());
+        }
+
     }
 
     @Override
@@ -96,6 +101,7 @@ public class HomeFragment extends Fragment {
                 viewHolder.setUsername(model.getUsername());
                 viewHolder.setDescription(model.getDesc());
                 viewHolder.setImage(model.getImage());
+                viewHolder.setEndorse(model.getEndorse());
 
                 Button endorse = viewHolder.itemView.findViewById(R.id.endorseButton);
 
