@@ -5,17 +5,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class seeProfile extends AppCompatActivity {
@@ -41,6 +46,7 @@ public class seeProfile extends AppCompatActivity {
 
         Intent intent = getIntent();
         final String userId = intent.getStringExtra("uid");
+        Log.v("user",userId);
 
         userref = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
         postReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("posts");
@@ -56,10 +62,11 @@ public class seeProfile extends AppCompatActivity {
         userref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                username = dataSnapshot.child(userId).child("username").getValue().toString();
-                description = dataSnapshot.child(userId).child("description").getValue().toString();
-                endorse = (Long) dataSnapshot.child(userId).child("endorse").getValue();
-                imagePath = dataSnapshot.child(userId).child("profile").getValue().toString();
+
+                username = dataSnapshot.child("username").getValue().toString();
+                description = dataSnapshot.child("description").getValue().toString();
+                endorse = (Long) dataSnapshot.child("endorse").getValue();
+                imagePath = dataSnapshot.child("profile").getValue().toString();
                 usernameText.setText(username);
                 descriptionText.setText(description);
                 endorseText.setText(endorse.toString());
@@ -108,7 +115,30 @@ public class seeProfile extends AppCompatActivity {
                 seeProfile.RecyclerViewHolder.class,
                 postReference
 
-        )
+        ){
+            @Override
+            protected void populateViewHolder(seeProfile.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
+                viewHolder.setImage(model.getImage());
+                viewHolder.setDescription(model.getDesc());
+                viewHolder.setEndorse(model.getEndorse());
+
+                String postId = model.getPostId();
+                Log.v("xxx",postId);
+
+                Button endorseButton = viewHolder.itemView.findViewById(R.id.endorseButton);
+
+                endorseButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+
+            }
+
+
+        };
     }
 
 
