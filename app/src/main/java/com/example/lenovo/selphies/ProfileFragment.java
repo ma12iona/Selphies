@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -212,7 +213,9 @@ public class ProfileFragment extends Fragment {
             @Override
             protected void populateViewHolder(ProfileFragment.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
                 viewHolder.setImage(model.getImage());
-                viewHolder.setDescription(model.getDescription());
+                viewHolder.setDescription(model.getDesc());
+
+                //viewHolder.itemView.findViewById()
 
             }
         };

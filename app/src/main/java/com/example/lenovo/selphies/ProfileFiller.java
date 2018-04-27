@@ -1,7 +1,7 @@
 package com.example.lenovo.selphies;
 
 public class ProfileFiller {
-    private String image, description;
+    private String image, desc;
 
     public ProfileFiller(){
 
@@ -9,7 +9,7 @@ public class ProfileFiller {
 
     public ProfileFiller(String image, String description){
         this.image = image;
-        this.description = description;
+        this.desc = description;
     }
 
     public String getImage() {
@@ -20,11 +20,11 @@ public class ProfileFiller {
         this.image = image;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.image = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

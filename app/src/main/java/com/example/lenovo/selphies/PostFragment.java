@@ -151,16 +151,17 @@ public class PostFragment extends Fragment {
                             DatabaseReference newPost = postref.push();
                             newPost.child("desc").setValue(desc);
                             newPost.child("image").setValue(downloadUrl.toString());
-                            newPost.child("view").setValue(0);
+                            newPost.child("endorse").setValue(0);
                             newPost.child("username").setValue(username);
+                            newPost.child("userId").setValue(userId);
 
                             DatabaseReference userPost = userref.child(userId).child("posts").child(newPost.getKey());
                             //userPost.setValue(newPost.getKey());
                             userPost.child("desc").setValue(desc);
                             userPost.child("image").setValue(downloadUrl.toString());
-                            userPost.child("view").setValue(0);
+                            userPost.child("endorse").setValue(0);
                             userPost.child("username").setValue(username);
-
+                            newPost.child("userId").setValue(userId);
                         }
                     });
                 }

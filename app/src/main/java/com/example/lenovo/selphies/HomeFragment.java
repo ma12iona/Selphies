@@ -12,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +26,8 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recycler;
     private DatabaseReference databaseReference;
+
+
 
     @Nullable
     @Override
@@ -91,6 +95,16 @@ public class HomeFragment extends Fragment {
                 viewHolder.setUsername(model.getUsername());
                 viewHolder.setDescription(model.getDesc());
                 viewHolder.setImage(model.getImage());
+
+                Button endorse = viewHolder.itemView.findViewById(R.id.endorseButton);
+
+                endorse.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Toast.makeText(getContext(), "Endorsed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         };
         recycler.setAdapter(FBRA);
