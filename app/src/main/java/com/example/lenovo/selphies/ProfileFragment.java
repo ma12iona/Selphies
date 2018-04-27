@@ -100,8 +100,6 @@ public class ProfileFragment extends Fragment {
                 }
             }
 
-
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -231,7 +229,7 @@ public class ProfileFragment extends Fragment {
                 final String postId = model.getPostId();
                 Log.v("xxx",postId);
 
-                Button delete = viewHolder.itemView.findViewById(R.id.deleteButton);
+                Button delete = viewHolder.itemView.findViewById(R.id.endorseButton);
                 Button edit = viewHolder.itemView.findViewById(R.id.editButton);
 
                 delete.setOnClickListener(new View.OnClickListener() {
