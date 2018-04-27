@@ -232,31 +232,29 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        /*postReference.addValueEventListener(new ValueEventListener() {
+                        postReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                String imagePath = dataSnapshot.child(postId).child("image").getValue().toString();
-                                StorageReference postPath = FirebaseStorage.getInstance().getReferenceFromUrl(imagePath);
-                                postPath.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
+                                
+                                if(dataSnapshot.child(postId).exists()){
+                                    String path = dataSnapshot.child(postId).child("image").getValue().toString();
 
-                                    }
-                                });
-
+                                    StorageReference picpath = FirebaseStorage.getInstance().getReferenceFromUrl(path);
+                                    picpath.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            postReference.child(postId).removeValue();
+                                            deleteReference.child(postId).removeValue();
+                                        }
+                                    });
+                                }
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
 
                             }
-                        });*/
-
-
-
-                        postReference.child(postId).removeValue();
-                        deleteReference.child(postId).removeValue();
-
+                        });
                     }
                 });
 
