@@ -204,6 +204,11 @@ public class ProfileFragment extends Fragment {
             description_text.setText(description);
         }
 
+        public void setEndorse(Long endorse){
+            TextView endorse_text = (TextView) itemView.findViewById(R.id.endorseText);
+            endorse_text.setText(endorse.toString());
+        }
+
     }
 
     @Override
@@ -221,6 +226,7 @@ public class ProfileFragment extends Fragment {
             protected void populateViewHolder(ProfileFragment.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
                 viewHolder.setImage(model.getImage());
                 viewHolder.setDescription(model.getDesc());
+                viewHolder.setEndorse(model.getEndorse());
 
                 final String postId = model.getPostId();
                 Log.v("xxx",postId);
@@ -235,7 +241,7 @@ public class ProfileFragment extends Fragment {
                         postReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                
+
                                 if(dataSnapshot.child(postId).exists()){
                                     String path = dataSnapshot.child(postId).child("image").getValue().toString();
 
