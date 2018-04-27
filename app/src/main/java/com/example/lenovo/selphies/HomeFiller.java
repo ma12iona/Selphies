@@ -7,7 +7,7 @@ public class HomeFiller {
 
     }
 
-    public HomeFiller(String username, String desc, String image){
+    public HomeFiller(String username, String desc, String image, int endorse){
         this.username = username;
         this.desc = desc;
         this.image = image;
@@ -36,4 +36,5 @@ public class HomeFiller {
     public void setUsername(String username) {
         this.username = username;
     }
+    
 }

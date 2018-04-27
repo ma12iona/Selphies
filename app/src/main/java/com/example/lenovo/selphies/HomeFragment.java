@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
             ImageView post_image = (ImageView) itemView.findViewById(R.id.postImage);
             Picasso.get().load(image).into(post_image);
         }
+
     }
 
     @Override

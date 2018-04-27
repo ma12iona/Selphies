@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:text="Description"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
@@ -45,12 +45,36 @@
             android:text="Description"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/endorseButton"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Endorse" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:text="Endorsed: "
+                android:textSize="24sp"
+                android:layout_centerVertical="true"
+                android:id="@+id/endorse"/>
+
+            <TextView
+                android:id="@+id/endorseText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/endorse"
+                android:text=" "
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/endorseButton"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="right"
+                android:text="Endorse" />
+        </RelativeLayout>
 
 
     </LinearLayout>
