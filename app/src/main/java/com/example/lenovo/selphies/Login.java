@@ -35,9 +35,9 @@ public class Login extends AppCompatActivity {
         setupUI();
 
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
+        /*if(mAuth.getCurrentUser() != null){
             mAuth.signOut();
-        }
+        }*/
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -66,7 +66,13 @@ public class Login extends AppCompatActivity {
         bypass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, MainActivity.class));
+                mAuth.signInWithEmailAndPassword("checker@gmail.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                    }
+                });
+                //startActivity(new Intent(Login.this, MainActivity.class));
             }
         });
     }
