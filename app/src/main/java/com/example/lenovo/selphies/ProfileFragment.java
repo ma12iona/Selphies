@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference, postReference;
+    private DatabaseReference databaseReference, postReference, deleteReference;
     private StorageReference storageReference;
     private Uri imageUri;
 
@@ -74,6 +74,7 @@ public class ProfileFragment extends Fragment {
         FirebaseUser user = mAuth.getCurrentUser();
         userId = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        deleteReference = FirebaseDatabase.getInstance().getReference().child("posts");
         storageReference = FirebaseStorage.getInstance().getReference();
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
@@ -99,11 +100,14 @@ public class ProfileFragment extends Fragment {
                 }
             }
 
+
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +201,7 @@ public class ProfileFragment extends Fragment {
             EditText description_text = (EditText) itemView.findViewById(R.id.descriptionText);
             description_text.setText(description);
         }
+
     }
 
     @Override
@@ -215,7 +220,50 @@ public class ProfileFragment extends Fragment {
                 viewHolder.setImage(model.getImage());
                 viewHolder.setDescription(model.getDesc());
 
-                //viewHolder.itemView.findViewById()
+                final String postId = model.getPostId();
+                Log.v("xxx",postId);
+
+                Button delete = viewHolder.itemView.findViewById(R.id.deleteButton);
+                Button edit = viewHolder.itemView.findViewById(R.id.editButton);
+
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        /*postReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String imagePath = dataSnapshot.child(postId).child("image").getValue().toString();
+                                StorageReference postPath = FirebaseStorage.getInstance().getReferenceFromUrl(imagePath);
+                                postPath.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });*/
+
+
+
+                        postReference.child(postId).removeValue();
+                        deleteReference.child(postId).removeValue();
+
+                    }
+                });
+
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
             }
         };

@@ -154,6 +154,7 @@ public class PostFragment extends Fragment {
                             newPost.child("endorse").setValue(0);
                             newPost.child("username").setValue(username);
                             newPost.child("userId").setValue(userId);
+                            newPost.child("postId").setValue(newPost.getKey());
 
                             DatabaseReference userPost = userref.child(userId).child("posts").child(newPost.getKey());
                             //userPost.setValue(newPost.getKey());
@@ -161,7 +162,8 @@ public class PostFragment extends Fragment {
                             userPost.child("image").setValue(downloadUrl.toString());
                             userPost.child("endorse").setValue(0);
                             userPost.child("username").setValue(username);
-                            newPost.child("userId").setValue(userId);
+                            userPost.child("userId").setValue(userId);
+                            userPost.child("postId").setValue(newPost.getKey());
                         }
                     });
                 }
