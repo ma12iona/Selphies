@@ -146,7 +146,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                getActivity().startActivity(new Intent(getContext(), Login.class));
+                Intent logoutIntent = new Intent(getContext(), Login.class);
+                logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().startActivity(logoutIntent);
             }
         });
 
