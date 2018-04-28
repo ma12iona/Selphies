@@ -9,16 +9,17 @@
         android:layout_height="129dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="13dp"
         app:srcCompat="@mipmap/selphies_app" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView3"
+        android:layout_toEndOf="@id/profileImage"
         android:layout_alignTop="@+id/profileImage"
+        android:layout_marginLeft="10dp"
         android:text="Display Name" />
 
     <EditText
@@ -26,8 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/textView2"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edit_shape"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -37,17 +40,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/usernameText"
         android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/textView2"
         android:text="Description" />
 
     <EditText
         android:id="@+id/descriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/profileImage"
+        android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/textView2"
-        android:layout_marginEnd="30dp"
+        android:layout_below="@+id/textView3"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/edit_shape"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/descriptionText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Endorsed: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/endorseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptionText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/textView4"
+        android:text="sss"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/updateButton"

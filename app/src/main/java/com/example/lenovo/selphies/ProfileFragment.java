@@ -43,8 +43,10 @@ public class ProfileFragment extends Fragment {
     private EditText username, description;
     private ImageView profileImage;
     private Button upload, update, logout;
+    private TextView endorseText;
 
     private String currentUsername, currentDescription, currentProfilePicture, userId;
+    private Long currentEndorse;
 
     private static final int GALLERY_INTENT = 1;
 
@@ -66,6 +68,7 @@ public class ProfileFragment extends Fragment {
         username = (EditText) view.findViewById(R.id.usernameText);
         description = (EditText) view.findViewById(R.id.descriptionText);
         profileImage = (ImageView) view.findViewById(R.id.profileImage);
+        endorseText = (TextView) view.findViewById(R.id.endorseText);
         upload = (Button) view.findViewById(R.id.uploadButton);
         update = (Button) view.findViewById(R.id.updateButton);
         logout = (Button) view.findViewById(R.id.logoutButton);
@@ -93,8 +96,10 @@ public class ProfileFragment extends Fragment {
                 currentUsername = dataSnapshot.child("username").getValue().toString().trim();
                 currentDescription = dataSnapshot.child("description").getValue().toString().trim();
                 currentProfilePicture = dataSnapshot.child("profile").getValue().toString();
+                currentEndorse = (Long) dataSnapshot.child("endorse").getValue();
                 username.setText(currentUsername);
                 description.setText(currentDescription);
+                endorseText.setText(currentEndorse.toString());
                 if(currentProfilePicture != ""){
                     Picasso.get().load(currentProfilePicture).into(profileImage);
                 }
@@ -240,6 +245,8 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                                final Long thisPostEndorse = (Long) dataSnapshot.child(postId).child("endorse").getValue();
+
                                 if(dataSnapshot.child(postId).exists()){
                                     String path = dataSnapshot.child(postId).child("image").getValue().toString();
 
@@ -247,6 +254,7 @@ public class ProfileFragment extends Fragment {
                                     picpath.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            databaseReference.child("endorse").setValue(currentEndorse - thisPostEndorse);
                                             postReference.child(postId).removeValue();
                                             deleteReference.child(postId).removeValue();
                                         }
