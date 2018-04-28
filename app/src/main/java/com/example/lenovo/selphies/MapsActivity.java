@@ -88,10 +88,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 
         LatLng current = new LatLng(currentLatitude, currentLongitude);
-        MarkerOptions myMarker = new MarkerOptions()
+        /*MarkerOptions myMarker = new MarkerOptions()
                 .position(current).title("I am here!")
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.my_marker));
-
+*/
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
@@ -103,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double latitude = (double) post.child("latitude").getValue();
                     double longitude = (double) post.child("longitude").getValue();
                     String username = post.child("username").getValue().toString();
-                    String imagePath = post.child("image").getValue().toString();
+                    String desc = post.child("desc").getValue().toString();
 
 
                     LatLng location = new LatLng(latitude,longitude);
@@ -111,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     MarkerOptions marker = new MarkerOptions()
                             .position(location)
                             .title(username)
-                            .snippet("hello")
+                            .snippet(desc)
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_marker));
                     mMap.addMarker(marker);
                 }
