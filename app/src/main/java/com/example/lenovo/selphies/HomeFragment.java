@@ -35,22 +35,12 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
-    private Long currentPostEndorse, currentUserEndorse;
-    private Boolean repeatStopper;
-    private Long endorseStopper;
-
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         final Activity activity = getActivity();
-
-        repeatStopper = Boolean.TRUE;
-
-        endorseStopper = Long.valueOf(-1);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(activity);
         mLayoutManager.setReverseLayout(true);
