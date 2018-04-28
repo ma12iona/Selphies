@@ -68,11 +68,13 @@
 
             <Button
                 android:id="@+id/endorseButton"
+                android:textColor="#ffffff"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="right"
+                android:background="@drawable/button"
                 android:text="Endorse" />
         </RelativeLayout>
 
