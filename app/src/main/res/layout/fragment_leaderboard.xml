@@ -8,6 +8,6 @@
         android:divider="@color/colorText"
         android:dividerHeight="1dp"
         android:id="@+id/simpleListView"
-        android:listSelector="#ffdbe7"
+        android:listSelector="#ffdbe7"/>
 
 </RelativeLayout>
