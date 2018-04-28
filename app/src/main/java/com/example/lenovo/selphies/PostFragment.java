@@ -87,7 +87,7 @@ public class PostFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_post, container, false);
+        final View view = inflater.inflate(R.layout.fragment_post, container, false);
         final Activity activity = getActivity();
 
         try{
@@ -139,7 +139,7 @@ public class PostFragment extends Fragment {
             public void onClick(View v) {
                 //final String username = mAuth.getCurrentUser().getDisplayName();//////////////////////////////
 
-                gps = new GPSTracker(getActivity());
+                gps = new GPSTracker(view.getContext());
                 if(gps.canGetLocation){
                     latitude = gps.getLatitude();
                     longitude = gps.getLongitude();
