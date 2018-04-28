@@ -44,7 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/postImage"
             android:layout_toStartOf="@+id/endorseButton"
-            android:text="Edit" />
+            android:background="@drawable/button_grey"
+            android:text="Edit"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:id="@+id/endorseButton"
@@ -52,7 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/postImage"
             android:layout_alignParentEnd="true"
-            android:text="Delete" />
+            android:background="@drawable/button_grey"
+            android:text="Delete"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/textView5"
