@@ -47,7 +47,6 @@ public class LeaderboardFragment extends Fragment {
 
         userref = FirebaseDatabase.getInstance().getReference().child("users");
 
-
         return view;
     }
 

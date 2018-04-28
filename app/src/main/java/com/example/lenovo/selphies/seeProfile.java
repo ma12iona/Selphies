@@ -26,9 +26,7 @@ public class SeeProfile extends AppCompatActivity {
     private Long endorse;
     private ImageView profileImage;
     private RecyclerView recycler;
-
     private DatabaseReference userref, postref, postReference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +40,6 @@ public class SeeProfile extends AppCompatActivity {
 
         Intent intent = getIntent();
         userId = intent.getStringExtra("uid");
-        Log.v("user",userId);
-
         userref = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
         postref = FirebaseDatabase.getInstance().getReference().child("posts");
         postReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("posts");
@@ -59,7 +55,6 @@ public class SeeProfile extends AppCompatActivity {
         userref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 username = dataSnapshot.child("username").getValue().toString();
                 description = dataSnapshot.child("description").getValue().toString();
                 endorse = (Long) dataSnapshot.child("endorse").getValue();
@@ -71,7 +66,6 @@ public class SeeProfile extends AppCompatActivity {
                     Picasso.get().load(imagePath).into(profileImage);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -105,7 +99,6 @@ public class SeeProfile extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        Log.v("here","aaaaaaaaaaa");
         FirebaseRecyclerAdapter<ProfileFiller, SeeProfile.RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<ProfileFiller, SeeProfile.RecyclerViewHolder>(
 
                 ProfileFiller.class,
@@ -122,15 +115,13 @@ public class SeeProfile extends AppCompatActivity {
 
                 final Long postEndorse = model.getEndorse();
                 final String postId = model.getPostId();
-                Log.v("xxx",postId);
 
-                final Button endorseButton = viewHolder.itemView.findViewById(R.id.endorseButton);
+                final Button endorseButton = viewHolder.itemView.findViewById(R.id.deleteButton);
 
                 userref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final Long userEndorse = (Long) dataSnapshot.child("endorse").getValue();
-                        Log.v("endorse2", userEndorse.toString());
 
                         endorseButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -147,24 +138,7 @@ public class SeeProfile extends AppCompatActivity {
 
                     }
                 });
-
-/*
-                endorseButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent endorseIntent = new Intent(SeeProfile.this, Endorsing.class);
-                        endorseIntent.putExtra("postId", postId);
-                        endorseIntent.putExtra("userId", userId);
-                        endorseIntent.putExtra("from","SeeProfile");
-                        startActivity(endorseIntent);
-
-                    }
-                });
-*/
-
             }
-
-
         };
         recycler.setAdapter(FBRA);
     }
@@ -173,6 +147,4 @@ public class SeeProfile extends AppCompatActivity {
     public void onBackPressed(){
         startActivity(new Intent(SeeProfile.this, MainActivity.class));
     }
-
-
 }

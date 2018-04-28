@@ -64,7 +64,6 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         final Activity activity = getActivity();
 
-
         username = (EditText) view.findViewById(R.id.usernameText);
         description = (EditText) view.findViewById(R.id.descriptionText);
         profileImage = (ImageView) view.findViewById(R.id.profileImage);
@@ -86,7 +85,6 @@ public class ProfileFragment extends Fragment {
 
         recycler = (RecyclerView) view.findViewById(R.id.recycler);
         recycler.setHasFixedSize(true);
-        //recycler.setLayoutManager(new LinearLayoutManager(activity));
         recycler.setLayoutManager(mLayoutManager);
         postReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("posts");
 
@@ -110,7 +108,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +171,6 @@ public class ProfileFragment extends Fragment {
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(getActivity());
-            //image.setImageURI(imageUri);
         }
     }
 
@@ -232,9 +228,8 @@ public class ProfileFragment extends Fragment {
                 viewHolder.setEndorse(model.getEndorse());
 
                 final String postId = model.getPostId();
-                Log.v("xxx",postId);
 
-                Button delete = viewHolder.itemView.findViewById(R.id.endorseButton);
+                Button delete = viewHolder.itemView.findViewById(R.id.deleteButton);
                 Button edit = viewHolder.itemView.findViewById(R.id.editButton);
 
                 delete.setOnClickListener(new View.OnClickListener() {

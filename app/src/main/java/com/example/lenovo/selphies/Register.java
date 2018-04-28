@@ -53,7 +53,6 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validate()){
-                    // database
                     final String user_username = username.getText().toString().trim();
                     final String user_password = password.getText().toString().trim();
                     final String user_email = email.getText().toString().trim();
@@ -64,7 +63,6 @@ public class Register extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 String user_id = mAuth.getCurrentUser().getUid();
-                                Log.v("xyz", user_id);
                                 ref = database.getReference("users").child(user_id);
                                 ref.child("username").setValue(user_username);
                                 ref.child("password").setValue(user_password);
@@ -74,7 +72,6 @@ public class Register extends AppCompatActivity {
                                 ref.child("endorse").setValue(0);
 
                                 if(imageUri != null){
-                                    //StorageReference filepath = storageReference.child("users").child(username.getText().toString().trim()).child("profile").child(imageUri.getLastPathSegment());
                                     StorageReference filepath = storageReference.child("profile").child(imageUri.getLastPathSegment());
                                     filepath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                         @Override
@@ -86,8 +83,6 @@ public class Register extends AppCompatActivity {
                                 }else{
                                     ref.child("profile").setValue("none");
                                 }
-
-                                //userProfile();
                                 Toast.makeText(Register.this, "Registration Complete.", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));
                             }else{
@@ -95,7 +90,6 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
-
                 }
             }
         });
@@ -149,7 +143,6 @@ public class Register extends AppCompatActivity {
         return result;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK && requestCode == GALLERY_INTENT){
@@ -158,7 +151,6 @@ public class Register extends AppCompatActivity {
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(this);
-
         }
 
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
@@ -172,5 +164,4 @@ public class Register extends AppCompatActivity {
             }
         }
     }
-
 }

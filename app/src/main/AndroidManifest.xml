@@ -34,13 +34,11 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".Register" />
-        <activity android:name=".DummySignIn" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <!-- https://github.com/ArthurHub/Android-Image-Cropper -->
         <activity android:name=".SeeProfile" />
-        <activity android:name=".Endorsing" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

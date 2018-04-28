@@ -68,7 +68,6 @@ public class PostFragment extends Fragment {
     private double latitude, longitude;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseDatabase database;
     private DatabaseReference postref, userref;
     private StorageReference storageReference;
@@ -77,11 +76,6 @@ public class PostFragment extends Fragment {
     private static final int CAMERA_INTENT = 2;
     private static final int WRITE_EXTERNAL_REQUEST_CODE = 3;
     private static final int REQUEST_CODE_PERMISSION = 4;
-
-
-
-
-
 
     @Nullable
     @Override
@@ -108,7 +102,6 @@ public class PostFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
         userId = user.getUid();
-        //ref = database.getReference("users").child(mAuth.getCurrentUser().getDisplayName()).child("post");
         postref = database.getReference("posts");
         userref = database.getReference("users");
 
@@ -137,25 +130,18 @@ public class PostFragment extends Fragment {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //final String username = mAuth.getCurrentUser().getDisplayName();//////////////////////////////
-
                 gps = new GPSTracker(view.getContext());
                 if(gps.canGetLocation){
                     latitude = gps.getLatitude();
                     longitude = gps.getLongitude();
-                    Log.v("lllll",String.valueOf(latitude));
-                    Log.v("lllll",String.valueOf(longitude));
                 }else{
-                    Log.v("lllll","asdsdaddsds");
                     gps.showSettingAlert();
                 }
 
                 userref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.v("xyz", userId);
                         username = dataSnapshot.child(userId).child("username").getValue().toString();
-                        Log.v("xyz", username);
                     }
 
                     @Override
@@ -163,12 +149,9 @@ public class PostFragment extends Fragment {
 
                     }
                 });
-                //final String username = userref.child(userId).child("username").getKey();
                 final String desc = description.getText().toString().trim();
 
-
-                if(!TextUtils.isEmpty(desc)){
-                    //StorageReference filePath = storageReference.child("users").child(username).child("post").child(imageUri.getLastPathSegment());
+                if(!TextUtils.isEmpty(desc) && imageUri != null){
                     StorageReference filePath = storageReference.child("posts").child(imageUri.getLastPathSegment());
                     filePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -185,7 +168,6 @@ public class PostFragment extends Fragment {
                             newPost.child("longitude").setValue(longitude);
 
                             DatabaseReference userPost = userref.child(userId).child("posts").child(newPost.getKey());
-                            //userPost.setValue(newPost.getKey());
                             userPost.child("desc").setValue(desc);
                             userPost.child("image").setValue(downloadUrl.toString());
                             userPost.child("endorse").setValue(0);
@@ -196,10 +178,11 @@ public class PostFragment extends Fragment {
                             userPost.child("longitude").setValue(longitude);
                         }
                     });
+                    Toast.makeText(getContext(), "Post Completed.", Toast.LENGTH_SHORT).show();
+                    getActivity().startActivity(new Intent(getContext(), MainActivity.class));
+                } else{
+                    Toast.makeText(getContext(), "Please choose the photo and add description.", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getContext(), "Post Completed.", Toast.LENGTH_SHORT).show();
-                getActivity().startActivity(new Intent(getContext(), MainActivity.class));
-
             }
         });
 
@@ -234,14 +217,12 @@ public class PostFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode,resultCode,data);
         if (resultCode == RESULT_OK && requestCode == GALLERY_INTENT) {
             imageUri = data.getData();
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(getActivity());
-            //image.setImageURI(imageUri);
         }
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_INTENT) {

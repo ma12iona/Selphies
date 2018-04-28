@@ -23,8 +23,6 @@ public class Login extends AppCompatActivity {
     private Button login;
     private Button register;
     private Button bypass;
-    private FirebaseDatabase database;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -35,15 +33,14 @@ public class Login extends AppCompatActivity {
         setupUI();
 
         mAuth = FirebaseAuth.getInstance();
-        /*if(mAuth.getCurrentUser() != null){
+        if(mAuth.getCurrentUser() != null){
             mAuth.signOut();
-        }*/
+        }
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()!=null){
-                    //startActivity(new Intent(Login.this, DummySignIn.class));
                     startActivity(new Intent(Login.this, MainActivity.class));
                 }
             }
@@ -63,18 +60,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        bypass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signInWithEmailAndPassword("checker@gmail.com", "123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                    }
-                });
-                //startActivity(new Intent(Login.this, MainActivity.class));
-            }
-        });
     }
 
     @Override

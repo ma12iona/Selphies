@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,7 @@ public class HomeFragment extends Fragment {
         FirebaseRecyclerAdapter<HomeFiller, RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<HomeFiller, RecyclerViewHolder>(
 
                 HomeFiller.class,
-                R.layout.recyclerpage,
+                R.layout.homerecycler,
                 RecyclerViewHolder.class,
                 databaseReference
 
@@ -105,7 +104,7 @@ public class HomeFragment extends Fragment {
                 viewHolder.setImage(model.getImage());
                 viewHolder.setEndorse(model.getEndorse());
 
-                final Button endorse = viewHolder.itemView.findViewById(R.id.endorseButton);
+                final Button endorse = viewHolder.itemView.findViewById(R.id.deleteButton);
                 TextView usernameText = viewHolder.itemView.findViewById(R.id.usernameText);
 
                 final String postId = model.getPostId();
@@ -117,7 +116,6 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final Long userEndorse = (Long) dataSnapshot.child(userId).child("endorse").getValue();
-                        Log.v("endorse2", userEndorse.toString());
 
                         endorse.setOnClickListener(new View.OnClickListener() {
                             @Override

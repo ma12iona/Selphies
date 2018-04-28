@@ -39,7 +39,7 @@
             android:text="desc" />
 
         <Button
-            android:id="@+id/endorseButton"
+            android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/userProfile"

@@ -67,7 +67,7 @@
                 android:textSize="24sp" />
 
             <Button
-                android:id="@+id/endorseButton"
+                android:id="@+id/deleteButton"
                 android:textColor="#ffffff"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
