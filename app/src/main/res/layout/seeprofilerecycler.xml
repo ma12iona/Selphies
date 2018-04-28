@@ -44,7 +44,9 @@
             android:layout_alignBottom="@+id/postImage"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:text="Endorse" />
+            android:background="@drawable/button"
+            android:text="Endorse"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/textView5"
