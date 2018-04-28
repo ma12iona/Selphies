@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,13 +56,6 @@ public class HomeFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("posts");
         userRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        recycler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         return view;
     }
 
@@ -84,7 +76,7 @@ public class HomeFragment extends Fragment {
         }
 
         public void setImage(String image) {
-            ImageView post_image = (ImageView) itemView.findViewById(R.id.postImage);
+            ImageView post_image = (ImageView) itemView.findViewById(R.id.userProfile);
             Picasso.get().load(image).into(post_image);
         }
 

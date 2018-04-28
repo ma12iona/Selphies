@@ -86,7 +86,7 @@ public class SeeProfile extends AppCompatActivity {
         }
 
         public void setImage(String image){
-            ImageView post_image = (ImageView) itemView.findViewById(R.id.postImage);
+            ImageView post_image = (ImageView) itemView.findViewById(R.id.userProfile);
             Picasso.get().load(image).into(post_image);
         }
 

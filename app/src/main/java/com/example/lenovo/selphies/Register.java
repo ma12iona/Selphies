@@ -69,6 +69,7 @@ public class Register extends AppCompatActivity {
                                 ref.child("username").setValue(user_username);
                                 ref.child("password").setValue(user_password);
                                 ref.child("email").setValue(user_email);
+                                ref.child("userId").setValue(user_id);
                                 ref.child("description").setValue("");
                                 ref.child("endorse").setValue(0);
 
