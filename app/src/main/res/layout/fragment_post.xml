@@ -19,7 +19,9 @@
         android:layout_alignEnd="@+id/imageView"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="41dp"
-        android:text="Post" />
+        android:background="@drawable/button"
+        android:text="Post"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/galleryButton"
@@ -27,7 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/postButton"
         android:layout_centerHorizontal="true"
-        android:text="Gallery" />
+        android:background="@drawable/button_grey"
+        android:text="Gallery"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/cameraButton"
@@ -35,7 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/imageView"
         android:layout_alignTop="@+id/postButton"
-        android:text="Camera" />
+        android:background="@drawable/button_grey"
+        android:text="Camera"
+        android:textColor="#FFFFFF"/>
 
     <EditText
         android:id="@+id/descriptionText"
