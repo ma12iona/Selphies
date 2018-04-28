@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/userProfile"
             android:layout_alignStart="@+id/endorseText"
+            android:background="@drawable/button"
             android:text="Profile" />
     </RelativeLayout>
 

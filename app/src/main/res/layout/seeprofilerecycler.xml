@@ -24,7 +24,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/userProfile"
             android:layout_toRightOf="@id/userProfile"
-            android:text="Description" />
+            android:text="Description"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/descriptionText"
