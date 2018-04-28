@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
                 username.setText(currentUsername);
                 description.setText(currentDescription);
                 endorseText.setText(currentEndorse.toString());
-                if(currentProfilePicture != ""){
+                if(!currentProfilePicture.equals("none")){
                     Picasso.get().load(currentProfilePicture).into(profileImage);
                 }
             }

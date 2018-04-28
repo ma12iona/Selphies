@@ -67,7 +67,7 @@ public class SeeProfile extends AppCompatActivity {
                 usernameText.setText(username);
                 descriptionText.setText(description);
                 endorseText.setText(endorse.toString());
-                if(imagePath != ""){
+                if(!imagePath.equals("none")){
                     Picasso.get().load(imagePath).into(profileImage);
                 }
             }

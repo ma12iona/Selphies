@@ -83,7 +83,7 @@ public class Register extends AppCompatActivity {
                                         }
                                     });
                                 }else{
-                                    ref.child("profile").setValue("");
+                                    ref.child("profile").setValue("none");
                                 }
 
                                 //userProfile();
