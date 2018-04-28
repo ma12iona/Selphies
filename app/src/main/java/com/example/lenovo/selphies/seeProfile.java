@@ -22,12 +22,12 @@ import com.squareup.picasso.Picasso;
 public class SeeProfile extends AppCompatActivity {
 
     private TextView usernameText, descriptionText, endorseText;
-    private String username, description, imagePath;
+    private String username, description, imagePath, userId;
     private Long endorse;
     private ImageView profileImage;
     private RecyclerView recycler;
 
-    private DatabaseReference userref, postReference;
+    private DatabaseReference userref, postref, postReference;
 
 
     @Override
@@ -41,10 +41,11 @@ public class SeeProfile extends AppCompatActivity {
         profileImage = (ImageView) findViewById(R.id.profileImage);
 
         Intent intent = getIntent();
-        final String userId = intent.getStringExtra("uid");
+        userId = intent.getStringExtra("uid");
         Log.v("user",userId);
 
         userref = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        postref = FirebaseDatabase.getInstance().getReference().child("posts");
         postReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("posts");
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -119,18 +120,47 @@ public class SeeProfile extends AppCompatActivity {
                 viewHolder.setDescription(model.getDesc());
                 viewHolder.setEndorse(model.getEndorse());
 
-                String postId = model.getPostId();
+                final Long postEndorse = model.getEndorse();
+                final String postId = model.getPostId();
                 Log.v("xxx",postId);
 
-                Button endorseButton = viewHolder.itemView.findViewById(R.id.endorseButton);
+                final Button endorseButton = viewHolder.itemView.findViewById(R.id.endorseButton);
 
-                endorseButton.setOnClickListener(new View.OnClickListener() {
+                userref.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final Long userEndorse = (Long) dataSnapshot.child("endorse").getValue();
+                        Log.v("endorse2", userEndorse.toString());
+
+                        endorseButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                postref.child(postId).child("endorse").setValue(postEndorse + 1);
+                                userref.child("posts").child(postId).child("endorse").setValue(postEndorse + 1);
+                                userref.child("endorse").setValue(userEndorse + 1);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
 
+/*
+                endorseButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent endorseIntent = new Intent(SeeProfile.this, Endorsing.class);
+                        endorseIntent.putExtra("postId", postId);
+                        endorseIntent.putExtra("userId", userId);
+                        endorseIntent.putExtra("from","SeeProfile");
+                        startActivity(endorseIntent);
+
+                    }
+                });
+*/
 
             }
 

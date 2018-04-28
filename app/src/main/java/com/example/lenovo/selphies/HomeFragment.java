@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,28 +77,28 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        public  RecyclerViewHolder(View itemView){
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+        public RecyclerViewHolder(View itemView) {
             super(itemView);
             View mView = itemView;
         }
 
-        public void setUsername(String username){
+        public void setUsername(String username) {
             TextView post_username = (TextView) itemView.findViewById(R.id.usernameText);
             post_username.setText(username);
         }
 
-        public void setDescription(String description){
+        public void setDescription(String description) {
             TextView post_desc = (TextView) itemView.findViewById(R.id.descText);
             post_desc.setText(description);
         }
 
-        public void setImage(String image){
+        public void setImage(String image) {
             ImageView post_image = (ImageView) itemView.findViewById(R.id.postImage);
             Picasso.get().load(image).into(post_image);
         }
 
-        public void setEndorse(Long endorse){
+        public void setEndorse(Long endorse) {
             TextView post_endorse = (TextView) itemView.findViewById(R.id.endorseText);
             post_endorse.setText(endorse.toString());
         }
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseRecyclerAdapter <HomeFiller, RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<HomeFiller, RecyclerViewHolder>(
+        FirebaseRecyclerAdapter<HomeFiller, RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<HomeFiller, RecyclerViewHolder>(
 
                 HomeFiller.class,
                 R.layout.recyclerpage,
@@ -127,40 +128,27 @@ public class HomeFragment extends Fragment {
 
                 final String postId = model.getPostId();
                 final String userId = model.getUserId();
+                final Long postEndorse = model.getEndorse();
 
-                endorse.setOnClickListener(new View.OnClickListener() {
+
+                userRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final Long userEndorse = (Long) dataSnapshot.child(userId).child("endorse").getValue();
+                        Log.v("endorse2", userEndorse.toString());
 
-                        databaseReference.addValueEventListener(new ValueEventListener() {
+                        endorse.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Long postEndorse = (Long) dataSnapshot.child(postId).child("endorse").getValue();
+                            public void onClick(View v) {
                                 databaseReference.child(postId).child("endorse").setValue(postEndorse + 1);
                                 userRef.child(userId).child("posts").child(postId).child("endorse").setValue(postEndorse + 1);
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-                        userRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Long userEndorse = (Long) dataSnapshot.child(userId).child("endorse").getValue();
                                 userRef.child(userId).child("endorse").setValue(userEndorse + 1);
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
                             }
                         });
-                        Toast.makeText(getContext(), "Endorsed.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
