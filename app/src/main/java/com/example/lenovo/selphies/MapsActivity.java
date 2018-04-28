@@ -88,6 +88,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 
         LatLng current = new LatLng(currentLatitude, currentLongitude);
+        MarkerOptions myMarker = new MarkerOptions()
+                .position(current).title("I am here!")
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.my_marker));
+
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
@@ -107,8 +111,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     MarkerOptions marker = new MarkerOptions()
                             .position(location)
                             .title(username)
-                            .snippet("hello");
-                            //.icon(BitmapDescriptorFactory.fromBitmap(image));
+                            .snippet("hello")
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_marker));
                     mMap.addMarker(marker);
                 }
             }
