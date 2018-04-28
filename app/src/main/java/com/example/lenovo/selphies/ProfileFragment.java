@@ -221,7 +221,7 @@ public class ProfileFragment extends Fragment {
 
         ) {
             @Override
-            protected void populateViewHolder(ProfileFragment.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
+            protected void populateViewHolder(final ProfileFragment.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
                 viewHolder.setImage(model.getImage());
                 viewHolder.setDescription(model.getDesc());
                 viewHolder.setEndorse(model.getEndorse());
@@ -265,6 +265,10 @@ public class ProfileFragment extends Fragment {
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        EditText descriptionText = (EditText) viewHolder.itemView.findViewById(R.id.descriptionText);
+                        String newDescription = descriptionText.getText().toString();
+                        postReference.child(postId).child("desc").setValue(newDescription);
+                        deleteReference.child(postId).child("desc").setValue(newDescription);
 
                     }
                 });
