@@ -8,22 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class seeProfile extends AppCompatActivity {
+public class SeeProfile extends AppCompatActivity {
 
     private TextView usernameText, descriptionText, endorseText;
     private String username, description, imagePath;
@@ -94,7 +90,7 @@ public class seeProfile extends AppCompatActivity {
         }
 
         public void setDescription(String description){
-            EditText description_text = (EditText) itemView.findViewById(R.id.descriptionText);
+            TextView description_text = (TextView) itemView.findViewById(R.id.descriptionText);
             description_text.setText(description);
         }
 
@@ -108,16 +104,17 @@ public class seeProfile extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseRecyclerAdapter<ProfileFiller, seeProfile.RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<ProfileFiller, seeProfile.RecyclerViewHolder>(
+        Log.v("here","aaaaaaaaaaa");
+        FirebaseRecyclerAdapter<ProfileFiller, SeeProfile.RecyclerViewHolder> FBRA = new FirebaseRecyclerAdapter<ProfileFiller, SeeProfile.RecyclerViewHolder>(
 
                 ProfileFiller.class,
                 R.layout.seeprofilerecycler,
-                seeProfile.RecyclerViewHolder.class,
+                SeeProfile.RecyclerViewHolder.class,
                 postReference
 
         ){
             @Override
-            protected void populateViewHolder(seeProfile.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
+            protected void populateViewHolder(SeeProfile.RecyclerViewHolder viewHolder, ProfileFiller model, int position) {
                 viewHolder.setImage(model.getImage());
                 viewHolder.setDescription(model.getDesc());
                 viewHolder.setEndorse(model.getEndorse());
@@ -139,6 +136,12 @@ public class seeProfile extends AppCompatActivity {
 
 
         };
+        recycler.setAdapter(FBRA);
+    }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(SeeProfile.this, MainActivity.class));
     }
 
 
