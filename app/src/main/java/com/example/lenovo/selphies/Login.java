@@ -73,7 +73,6 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.passwordText);
         login = (Button) findViewById(R.id.loginButton);
         register = (Button) findViewById(R.id.registerButton);
-        bypass = (Button) findViewById(R.id.bypass);
     }
 
     private void validate(){
