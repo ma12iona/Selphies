@@ -83,7 +83,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profileImage"
         android:layout_toStartOf="@+id/logoutButton"
-        android:text="Update" />
+        android:background="@drawable/button"
+        android:text="Update"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/logoutButton"
@@ -91,7 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/usernameText"
         android:layout_below="@+id/profileImage"
-        android:text="Logout" />
+        android:background="@drawable/button_grey"
+        android:text="Logout"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/uploadButton"
@@ -99,7 +103,9 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/profileImage"
         android:layout_below="@+id/profileImage"
-        android:text="Upload" />
+        android:background="@drawable/button"
+        android:text="Upload"
+        android:textColor="#FFFFFF"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
