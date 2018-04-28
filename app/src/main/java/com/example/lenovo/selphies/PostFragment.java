@@ -1,6 +1,7 @@
 package com.example.lenovo.selphies;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.test.mock.MockPackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,9 +61,11 @@ public class PostFragment extends Fragment {
     private Uri imageUri;
     private File file;
     private EditText description;
-    private String userId;
+    private String userId, location;
     private FirebaseUser user;
     private String username;
+    private GPSTracker gps;
+    private double latitude, longitude;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -72,6 +76,9 @@ public class PostFragment extends Fragment {
     private static final int GALLERY_INTENT = 1;
     private static final int CAMERA_INTENT = 2;
     private static final int WRITE_EXTERNAL_REQUEST_CODE = 3;
+    private static final int REQUEST_CODE_PERMISSION = 4;
+
+
 
 
 
@@ -82,6 +89,14 @@ public class PostFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         final Activity activity = getActivity();
+
+        try{
+            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_PERMISSION);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         post = (Button) view.findViewById(R.id.postButton);
         gallery = (Button) view.findViewById(R.id.galleryButton);
@@ -124,6 +139,17 @@ public class PostFragment extends Fragment {
             public void onClick(View v) {
                 //final String username = mAuth.getCurrentUser().getDisplayName();//////////////////////////////
 
+                gps = new GPSTracker(getActivity());
+                if(gps.canGetLocation){
+                    latitude = gps.getLatitude();
+                    longitude = gps.getLongitude();
+                    Log.v("lllll",String.valueOf(latitude));
+                    Log.v("lllll",String.valueOf(longitude));
+                }else{
+                    Log.v("lllll","asdsdaddsds");
+                    gps.showSettingAlert();
+                }
+
                 userref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -155,6 +181,8 @@ public class PostFragment extends Fragment {
                             newPost.child("username").setValue(username);
                             newPost.child("userId").setValue(userId);
                             newPost.child("postId").setValue(newPost.getKey());
+                            newPost.child("latitude").setValue(latitude);
+                            newPost.child("longitude").setValue(longitude);
 
                             DatabaseReference userPost = userref.child(userId).child("posts").child(newPost.getKey());
                             //userPost.setValue(newPost.getKey());
@@ -164,6 +192,8 @@ public class PostFragment extends Fragment {
                             userPost.child("username").setValue(username);
                             userPost.child("userId").setValue(userId);
                             userPost.child("postId").setValue(newPost.getKey());
+                            userPost.child("latitude").setValue(latitude);
+                            userPost.child("longitude").setValue(longitude);
                         }
                     });
                 }
