@@ -82,17 +82,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-
         LatLng current = new LatLng(currentLatitude, currentLongitude);
-        /*MarkerOptions myMarker = new MarkerOptions()
+        MarkerOptions myMarker = new MarkerOptions()
                 .position(current).title("I am here!")
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.my_marker));
-*/
-
+        mMap.addMarker(myMarker);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
 
@@ -104,10 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double longitude = (double) post.child("longitude").getValue();
                     String username = post.child("username").getValue().toString();
                     String desc = post.child("desc").getValue().toString();
-
-
                     LatLng location = new LatLng(latitude,longitude);
-
                     MarkerOptions marker = new MarkerOptions()
                             .position(location)
                             .title(username)
@@ -122,34 +113,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
-
-
-
-
     }
 
     @Override
     public void onBackPressed(){
         startActivity(new Intent(MapsActivity.this, MainActivity.class));
     }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    // Src: https://stackoverflow.com/questions/11831188/how-to-get-bitmap-from-a-url-in-android/11831325#11831325
-    // Author: silentnuke
-
-
 }
