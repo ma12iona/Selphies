@@ -26,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+/**
+This class shows the posts of the user in the home page by using recycle view
+ */
 public class HomeFragment extends Fragment {
 
     private RecyclerView recycler;
@@ -58,6 +61,9 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    /**
+    This class is a recycle view class for showing posts
+     */
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         public RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +92,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+    This method is use to populate the recycle view with the posts from firebase
+     */
     @Override
     public void onStart() {
         super.onStart();

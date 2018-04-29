@@ -1,5 +1,8 @@
 package com.example.lenovo.selphies;
 
+/**
+This class is use as a base for recycle view in leaderboard page
+ */
 public class LeaderFiller {
     private String username, description, profile, userId;
     private Long endorse;

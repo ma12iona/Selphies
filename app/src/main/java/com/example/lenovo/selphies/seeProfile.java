@@ -19,6 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+/**
+ * This class is when the user view the profile of another user
+ */
 public class SeeProfile extends AppCompatActivity {
 
     private TextView usernameText, descriptionText, endorseText;
@@ -73,6 +76,9 @@ public class SeeProfile extends AppCompatActivity {
         });
     }
 
+    /**
+     * This class is the recycle view class for populating the posts of the user
+     */
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         public  RecyclerViewHolder(View itemView){
             super(itemView);
@@ -96,6 +102,9 @@ public class SeeProfile extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is use to retrive posts from firebase and populate in recycle view
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -143,6 +152,9 @@ public class SeeProfile extends AppCompatActivity {
         recycler.setAdapter(FBRA);
     }
 
+    /**
+     * This method is to fix some glitch
+     */
     @Override
     public void onBackPressed(){
         startActivity(new Intent(SeeProfile.this, MainActivity.class));

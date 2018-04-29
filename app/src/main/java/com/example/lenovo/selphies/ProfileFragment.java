@@ -38,6 +38,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * This class is the profile setting page of the application
+ */
 public class ProfileFragment extends Fragment {
 
     private EditText username, description;
@@ -164,6 +167,12 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * This method is mainly for cropping the image
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK && requestCode == GALLERY_INTENT) {
             imageUri = data.getData();
@@ -174,6 +183,12 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * This method is use for setting the image in the page
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void getImage(int requestCode, int resultCode, Intent data){
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -187,6 +202,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * This class is the recycle view that will show the post in the page
+     */
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         public  RecyclerViewHolder(View itemView){
             super(itemView);
@@ -210,6 +228,9 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /**
+     * This method is use to retrieve post from the firebase and populate in recycle view
+     */
     @Override
     public void onStart() {
         super.onStart();

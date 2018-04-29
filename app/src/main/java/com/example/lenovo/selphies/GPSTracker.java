@@ -16,6 +16,12 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
+
+/**
+    This class is the base class for getting the user's location in latitude and longitude.
+
+ */
+
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -38,6 +44,10 @@ public class GPSTracker extends Service implements LocationListener {
         getLocation();
     }
 
+    /**
+        This method is mainly use to get the location of the user.
+        First the method check if the permission is allowed then retrieve the location.
+     */
     public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
@@ -88,6 +98,10 @@ public class GPSTracker extends Service implements LocationListener {
         return location;
     }
 
+    /**
+        This method is a countermeasure when there is a need to stop using GPS suddenly.
+        It is not used in the project, but it is required as a good programming convention.
+     */
     public void stopUsingGPS(){
         if(locationManager != null){
             if (ActivityCompat.checkSelfPermission((Activity) mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((Activity) mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -104,6 +118,9 @@ public class GPSTracker extends Service implements LocationListener {
         }
     }
 
+    /**
+     This method is use to get latitude value
+     */
     public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
@@ -111,6 +128,9 @@ public class GPSTracker extends Service implements LocationListener {
         return  latitude;
     }
 
+    /***
+    This method is use to get longitude value
+     */
     public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
@@ -118,10 +138,16 @@ public class GPSTracker extends Service implements LocationListener {
         return  longitude;
     }
 
+    /**
+    This method is use to check whether a location can be retrieved
+     */
     public boolean canGetLocation(){
         return this.canGetLocation;
     }
 
+    /**
+    This method is use for asking permission from the user.
+     */
     public void showSettingAlert(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
         alertDialog.setTitle("GPS Setting");
@@ -142,6 +168,10 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.show();
     }
 
+
+    /**
+    *These method are built in method from super class
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

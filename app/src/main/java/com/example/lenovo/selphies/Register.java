@@ -28,6 +28,9 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+/**
+ * This class is the register class of the application
+ */
 public class Register extends AppCompatActivity {
     private EditText username, password, confirmPassword, email;
     private Button upload, register, cancel;
@@ -111,6 +114,9 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    /**
+     * This is initialization class
+     */
     private void setupUI(){
         username = (EditText) findViewById(R.id.usernameText);
         password = (EditText) findViewById(R.id.passwordText);
@@ -122,6 +128,10 @@ public class Register extends AppCompatActivity {
         profileImage = (ImageView) findViewById(R.id.profileImage);
     }
 
+    /**
+     * This is use to check if all the input are correct
+     * @return
+     */
     private Boolean validate(){
         Boolean result = true;
 
@@ -143,6 +153,12 @@ public class Register extends AppCompatActivity {
         return result;
     }
 
+    /**
+     * This method is use for cropping image
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK && requestCode == GALLERY_INTENT){

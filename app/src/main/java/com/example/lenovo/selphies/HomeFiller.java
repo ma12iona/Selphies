@@ -1,5 +1,9 @@
 package com.example.lenovo.selphies;
 
+
+/**
+ *  This class is use as a base for recycle view in home page
+ */
 public class HomeFiller {
     private String username, desc, image, postId, userId;
     private Long endorse;

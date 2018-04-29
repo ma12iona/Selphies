@@ -17,6 +17,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+
+/**
+This class is the login page of the application
+ */
 public class Login extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -62,12 +67,18 @@ public class Login extends AppCompatActivity {
 
     }
 
+    /**
+    This method is override to let user login if there is a cache data
+     */
     @Override
     protected void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(authStateListener);
     }
 
+    /**
+    This is an initialization method
+     */
     private void setupUI(){
         email = (EditText) findViewById(R.id.emailText);
         password = (EditText) findViewById(R.id.passwordText);
@@ -75,6 +86,9 @@ public class Login extends AppCompatActivity {
         register = (Button) findViewById(R.id.registerButton);
     }
 
+    /**
+    This method is use to check if the user exist when logging in
+     */
     private void validate(){
 
         String user_email = email.getText().toString();

@@ -54,6 +54,9 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * This class is use when the user want to post
+ */
 public class PostFragment extends Fragment {
 
     private Button post, gallery, camera;
@@ -189,6 +192,9 @@ public class PostFragment extends Fragment {
         return view;
     }
 
+    /**
+     * This method is use to access the camera
+     */
     public void takePhoto() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File cameraFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
@@ -206,6 +212,12 @@ public class PostFragment extends Fragment {
         startActivityForResult(cameraIntent, CAMERA_INTENT);
     }
 
+    /**
+     * This method is use to access the external files
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -214,7 +226,12 @@ public class PostFragment extends Fragment {
         }
     }
 
-
+    /**
+     * This method is use to take action for some intent
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == GALLERY_INTENT) {
@@ -248,6 +265,12 @@ public class PostFragment extends Fragment {
 
     }
 
+    /**
+     * This method is use to set the image
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void getImage(int requestCode, int resultCode, Intent data){
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);

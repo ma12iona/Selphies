@@ -21,7 +21,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
-
+/**
+This class is use to show the leaderboard of the users ordered by total endorse in a recycle view
+ */
 public class LeaderboardFragment extends Fragment {
 
     private RecyclerView recycler;
@@ -50,7 +52,9 @@ public class LeaderboardFragment extends Fragment {
         return view;
     }
 
-
+/**
+    This class is a recycle view class for showing posts
+ */
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         public RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -79,6 +83,9 @@ public class LeaderboardFragment extends Fragment {
 
     }
 
+    /**
+This method is use to populate the recycle view with the users from firebase ordered by the total endorse
+ */
     @Override
     public void onStart() {
         super.onStart();

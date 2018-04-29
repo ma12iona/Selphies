@@ -31,6 +31,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * This class is the google map class
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -115,6 +118,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    /**
+     * This method is to fix some glitch
+     */
     @Override
     public void onBackPressed(){
         startActivity(new Intent(MapsActivity.this, MainActivity.class));

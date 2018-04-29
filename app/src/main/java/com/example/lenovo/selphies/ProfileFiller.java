@@ -1,5 +1,8 @@
 package com.example.lenovo.selphies;
 
+/**
+ * This class is use as a base for recycle view in profile page
+ */
 public class ProfileFiller {
     private String image, desc, postId;
     private Long endorse;

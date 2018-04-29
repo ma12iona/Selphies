@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+/**
+ * This class redirect the user to the Google Map class
+ */
+
 public class AroundyouFragment extends Fragment {
 
     @Nullable

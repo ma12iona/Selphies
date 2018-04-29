@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 
+/**
+This class contains all the fragment in the application for each page on the navigation bar
+ */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     Fragment fragment = null;
 
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return loadFragment(fragment);
     }
 
+    /**
+    This method is use to override some action from the fragment
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
